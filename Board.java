@@ -13,57 +13,91 @@ public class Board {
     {
         length = 10;
         board = new int[length][length];
-		Random rand = new Random();
-		for(int i = 5; i > 0; i--){
-				Boolean horizontal = rand.nextBoolean();
-				int x = rand.nextInt(length);
-				int y = rand.nextInt(length);
-				if(horizontal){
-					if(x+i > length){
-						x -= i;
-					}
-				}else{
-					if(y+i > length){
-						y -=i;
-					}
-				}
-				boolean canPlace = true;
-				if(horizontal){
-					for(int a = x; a< x+i; a++){
-						if(board[y][a] != 0)
-						{
-							canPlace = false;
-							break;
-						}
-					}
-				}
-				else{
-					for(int a = y; a< y+i; a++){
-						if(board[a][x] != 0)
-						{
-							canPlace = false;
-							break;
-						}
-					}
-				}
-				if(!canPlace){
-					i++;
-					continue;
-				}
-				else{
-				for (int a = 0; a < i; a++) {
-					board[y][x] = i;
-					if (horizontal) {
-						x++;
-					} else {
-						y++;
-					}
-				}
-			}
+		fillBoard();
+		for(int i = 0; i < 5; i++){
+			ships[i] = new Ship(i+1);
 		}
 	}   
 	
+	public String doShot(int x, int y){
+		int cellValue = board[x][y];
+		if(cellValue == 6 || cellValue == 7){
+			return "MISS";
+		}else if(cellValue == 0){
+			board[x][y] = 7;
+			return "MISS";
+		}else if(cellValue < 6)
+		{
+			ships[cellValue-1].shot();
+			board[x][y] = 6;
+			boolean gameWon = true;
+			for(int i =0; i < 5; i++){
+				if(!ships[i].isSunk()){
+					gameWon = false;
+				}
+			}
+			if(gameWon){
+				return "GAME OVER";
+			}
+			else if(ships[cellValue-1].isSunk()){
+				return "SUNK";
+			}
+			return "HIT";
+		}
+		return "ERROR";
+	}
 
+	private void fillBoard(){
+		Random rand = new Random();
+		for(int i = 5; i > 0; i--){
+			Boolean horizontal = rand.nextBoolean();
+			int x = rand.nextInt(length);
+			int y = rand.nextInt(length);
+			if(horizontal){
+				if(x+i > length){
+					x -= i;
+				}
+			}else{
+				if(y+i > length){
+					y -=i;
+				}
+			}
+			boolean canPlace = true;
+			if(horizontal){
+				for(int a = x; a< x+i; a++){
+					if(board[y][a] != 0)
+					{
+						canPlace = false;
+						break;
+					}
+				}
+			}
+			else{
+				for(int a = y; a< y+i; a++){
+					if(board[a][x] != 0)
+					{
+						canPlace = false;
+						break;
+					}
+				}
+			}
+			if(!canPlace){
+				i++;
+				continue;
+			}
+			else{
+			for (int a = 0; a < i; a++) {
+				board[y][x] = i;
+				if (horizontal) {
+					x++;
+				} else {
+					y++;
+				}
+			}
+		}
+	}
+}
+Q=
     public void displayFull()
 	{   
         System.out.println((int)'a' - 1);
@@ -154,10 +188,34 @@ public class Board {
 			System.out.println("--+---+---+---+---+---+---+---+---+---+---|");	
 		}
 	}
+
+
     private String getCharForNumber(int i) {
     return i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null;
 }
-private String getNumberForChar(int i) {
-    return i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null;
-}
+	private int getNumberForChar(char i) {
+		int coordinate = 11;
+		if(i == 'A'){
+			coordinate = 0;
+		}else if(i == 'B'){
+			coordinate = 1;
+		}else if(i == 'C'){
+			coordinate = 2;
+		}else if(i =='D'){
+			coordinate = 3;
+		}else if( i =='E'){
+			coordinate = 4;
+		}else if(i == 'F'){
+			coordinate = 5;
+		}else if(i == 'G'){
+			coordinate = 6;
+		}else if(i =='H'){
+			coordinate = 7;
+		}else if(i =='I'){
+			coordinate = 8;
+		}else if(i =='J'){
+			coordinate = 9;
+		}
+		return coordinate;
+	}
 }

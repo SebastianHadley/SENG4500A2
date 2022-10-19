@@ -40,10 +40,9 @@ public class Player {
 	
 	public Coordinates attack()
 	{
-		System.out.println("It is " + playerName + "'s turn to attack.");
 		int x = 0;
 		int y = 0;
-		boolean redundant = true;
+		boolean badshot = true;;
 		if(human)
 		{
 			while(redundant)

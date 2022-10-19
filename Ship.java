@@ -17,7 +17,6 @@ public class Ship {
 	{
 		hits++;
 	}
-	
 	public boolean isSunk()
 	{
 		if(hits == length)
