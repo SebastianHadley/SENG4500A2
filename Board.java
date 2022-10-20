@@ -6,20 +6,23 @@ public class Board {
     private Ship[] ships;
     public static void main(String[] args){
         Board board = new Board();
-        board.displayFull();
+		System.out.println(board.doShot('F',5));
+		board.displayFull();
     }
     
 	public Board()
     {
         length = 10;
         board = new int[length][length];
+		ships = new Ship[5];
 		fillBoard();
 		for(int i = 0; i < 5; i++){
 			ships[i] = new Ship(i+1);
 		}
 	}   
 	
-	public String doShot(int x, int y){
+	public String doShot(char xchar, int y){
+		int x = getNumberForChar(xchar);
 		int cellValue = board[x][y];
 		if(cellValue == 6 || cellValue == 7){
 			return "MISS";
@@ -97,7 +100,7 @@ public class Board {
 		}
 	}
 }
-Q=
+
     public void displayFull()
 	{   
         System.out.println((int)'a' - 1);

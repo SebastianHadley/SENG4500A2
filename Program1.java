@@ -9,7 +9,7 @@ public class Program1 {
     {
         // Pick the random port we are going to listen on that Program2 is going to have to 'hunt' for
         Random rand = new Random();
-        int myPort = rand.nextInt(1000) + 4000;
+        int myPort = rand.nextInt(1000) + 5000;
         System.out.println("Listening on UDP port " + myPort);
 
         try
