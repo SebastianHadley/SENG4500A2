@@ -14,7 +14,13 @@ public class Board {
             enemyBoard = false;
             fillBoard();
             for (int i = 0; i < 5; i++) {
-                ships[i] = new Ship(i + 1);
+                if(i == 1){
+                    ships[i] = new Ship(i+2,"Submarine");
+                    ships[i+1] = new Ship(i+3,"Cruiser");
+                    i++;
+                    continue;
+                }
+                ships[i] = new Ship(i + 2,null);
             }
         } else {
             enemyBoard = true;
@@ -24,9 +30,9 @@ public class Board {
 
     public void addYourShot(String result, char xchar, int y) {
         int x = getNumberForChar(xchar);
-        if (result == "MISS") {
+        if (result.equals("MISS")) {
             board[x][y] = 2;
-        } else if (result == "HIT" || result == "SUNK") {
+        } else if (result.equals("HIT") || result.equals("SUNK") || result.equals("GAME OVER")) {
             board[x][y] = 1;
         }
         return;
@@ -34,6 +40,7 @@ public class Board {
 
     public String doShot(char xchar, int y) {
         int x = getNumberForChar(xchar);
+        System.out.println(x+ "x value"+ y +"y value");
         int cellValue = board[x][y];
         if (cellValue == 6 || cellValue == 7) {
             return "MISS";
@@ -52,7 +59,7 @@ public class Board {
             if (gameWon) {
                 return "GAME OVER";
             } else if (ships[cellValue - 1].isSunk()) {
-                return "SUNK";
+                return "SUNK" +ships[cellValue-1].getName();
             }
             return "HIT";
         }
@@ -107,6 +114,12 @@ public class Board {
     }
 
     public void display() {
+        if(!enemyBoard)
+        {
+            for(int i = 0; i < 5; i++){
+               System.out.println(ships[i].isSunk());
+            }
+        }
         System.out.println((int) 'a' - 1);
         System.out.println();
         System.out.println("  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |");
@@ -171,8 +184,8 @@ public class Board {
         return i > 0 && i < 27 ? String.valueOf((char) (i + 64)) : null;
     }
 
-    private int getNumberForChar(char i) {
-        int coordinate = 11;
+    public int getNumberForChar(char i) {
+        int coordinate = 100;
         if (i == 'A') {
             coordinate = 0;
         } else if (i == 'B') {
